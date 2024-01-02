@@ -51,8 +51,8 @@ bool FightZone::FightLogic(FightUnit& _First, FightUnit& _Second, FightUnit& _To
 
 void FightZone::In(Player& _Player)
 {
-	NewMonster.FightStart(_Player);
-	_Player.FightStart(NewMonster);
+	NewMonster.HpReset();
+	NewMonster.RandomGold(10000, 100000);
 
 	while (true)
 	{
@@ -79,19 +79,61 @@ void FightZone::In(Player& _Player)
 			{
 				if (false == _Player.IsDeath())
 				{
-
-					NewMonster.FightEnd(_Player);
-					_Player.FightEnd(NewMonster);
-
-
-					//NewMonster.HpReset();
-					//NewMonster.RandomGold(10000, 100000);
-
+					int MonsterGold = NewMonster.GetGold();
+					printf_s("플레이어가 %d 골드를 벌었습니다.\n", MonsterGold);
+					_Player.AddGold(MonsterGold);
 					int Test = _getch();
 				}
 
 				return;
 			}
+	}
+
+}
+
+void FightZone::In(Player& _Player, int _MonMinAtt, int _MonMaxAtt, int _MonMaxHp, const char* _MonsterGrade)
+{
+	const char* Grade = _MonsterGrade;
+
+	NewMonster.SetName(Grade);
+	NewMonster.MaxHpSet(_MonMaxHp);
+	NewMonster.MinAttSet(_MonMinAtt);
+	NewMonster.MaxAttSet(_MonMaxAtt);
+	NewMonster.RandomGold(10000, 100000);
+
+	while (true)
+	{
+		_Player.StatusRender();
+		NewMonster.StatusRender();
+
+		// 선공 후공이 결정 나고
+		// 조건에 따라서
+
+		bool IsEnd = false;
+
+		if (_Player.GetRandomSpeed() >= NewMonster.GetRandomSpeed())
+		{
+			printf_s("플레이어의 선공\n");
+			IsEnd = FightLogic(_Player, NewMonster, _Player, NewMonster);
+		}
+		else
+		{
+			printf_s("몬스터의 선공\n");
+			IsEnd = FightLogic(NewMonster, _Player, _Player, NewMonster);
+		}
+
+		if (true == IsEnd)
+		{
+			if (false == _Player.IsDeath())
+			{
+				int MonsterGold = NewMonster.GetGold();
+				printf_s("플레이어가 %d 골드를 벌었습니다.\n", MonsterGold);
+				_Player.AddGold(MonsterGold);
+				int Test = _getch();
+			}
+
+			return;
+		}
 	}
 
 }

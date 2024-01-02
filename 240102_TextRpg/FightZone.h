@@ -7,15 +7,14 @@ class FightZone : public ZoneBase
 public:
 	FightZone();
 
-	Monster NewMonster = Monster();
-
 	// 결과가 나올때까지의 전투
 	// 전방선언
 	// 플레이어 헤더를 여기에 선언하기 싫어서.
 	void In(class Player& _Player);
-
+	void In(class Player& _Player, int _MonMinAtt, int _MonMaxAtt, int _MonMaxHp, const char* _MonsterGrade);
 
 private:
+	Monster NewMonster = Monster();
 
 	// 한번의 전투
 	// 선언과 구현은 완전히 동일해야 합니다.

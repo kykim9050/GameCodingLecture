@@ -21,19 +21,7 @@ public:
 	// 지금은 동적할당을 배우지 않았기 때문에 
 	Weapon Weapon;
 
-	void FightEnd(FightUnit& _Ohter) override;
-
-	void StatusRenderStart() override;
-
-	void LevelUp();
-
 protected:
 	int GetRandomAtt() override;
-
-private:
-	int Level = 1;
-
-	// 이건 여기에 도달하면 나는 레벨업한다.
-	int LevelUpExp = 1000;
 };
 
