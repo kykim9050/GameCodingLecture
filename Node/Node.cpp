@@ -12,7 +12,7 @@ typedef int DataType;
 class Node 
 {
 public:
-    DataType Value;
+    DataType Value = 0;
     Node* Next = nullptr;
 };
 
@@ -46,23 +46,29 @@ int main()
 
 
 
-
-
-
-
-
-
+               
+               
+               
+               
+               
+               
 
 
     Node* CurNode = &Node0;
 
     //std::cout << CurNode->Value << std::endl;
 
-    while (CurNode)
+    /*while (CurNode)
     {
         std::cout << CurNode->Value << std::endl;
         CurNode = CurNode->Next;
-    }
+    }*/
+
+    do
+    {
+        std::cout << CurNode->Value << std::endl;
+    } while ((CurNode = CurNode->Next));
+
 
 
     // CurNode 만 가지고
