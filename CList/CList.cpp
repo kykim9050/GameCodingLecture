@@ -8,7 +8,7 @@
 typedef int DataType;
 
 // 노드형태입니다.
-class MyList 
+class MyList
 {
 	// Node가 데이터를 1개 받기 때문입니다.
 // 더미노드라는 방식을 사용할 겁니다.
@@ -25,7 +25,15 @@ private:
 public:
 	class iterator
 	{
+		// class MyList전방 선언과 동시에 friend를 건건데
+		// mylist가 뭔지 알기 때문에.
+		friend MyList;
+
 	public:
+		iterator()
+		{
+		}
+
 		iterator(ListNode* _CurNode)
 			: CurNode(_CurNode)
 		{
@@ -50,7 +58,6 @@ public:
 
 	private:
 		ListNode* CurNode = nullptr;
-
 	};
 
 
@@ -84,15 +91,14 @@ public:
 
 		PrevNode->Next = NewNode;
 		NextNode->Prev = NewNode;
-
 	}
 
 	// Start의 Next에 새로운 데이터를 넣겠다.
 	void push_front(const DataType& _Data)
 	{
+		// 역함수
 		ListNode* NewNode = new ListNode();
 		NewNode->Data = _Data;
-
 
 		NewNode->Prev = Start;
 		NewNode->Next = Start->Next;
@@ -102,7 +108,47 @@ public:
 
 		PrevNode->Next = NewNode;
 		NextNode->Prev = NewNode;
+
 	}
+
+	iterator erase(iterator& _Iter)
+	{
+		if (_Iter.CurNode == Start)
+		{
+			MsgBoxAssert("Start를 삭제하려고 했습니다.");
+		}
+
+		if (_Iter.CurNode == End)
+		{
+			MsgBoxAssert("End를 삭제하려고 했습니다.");
+		}
+
+		iterator ReturnIter;
+
+		if (nullptr != _Iter.CurNode)
+		{
+			// 다음 노드를 리턴
+			ReturnIter = iterator(_Iter.CurNode->Next);
+
+			ListNode* PrevNode = _Iter.CurNode->Prev;
+			ListNode* NextNode = _Iter.CurNode->Next;
+
+			PrevNode->Next = NextNode;
+			NextNode->Prev = PrevNode;
+
+			// 삭제하기 전에
+			// 삭제한다는것은 데이터를 전부다 지우겠다는 건데.
+			// 지운걸 사용할수 없다.
+			if (nullptr == _Iter.CurNode)
+			{
+				delete _Iter.CurNode;
+				_Iter.CurNode = nullptr;
+			}
+		}
+
+		return ReturnIter;
+	}
+
 
 protected:
 
@@ -119,14 +165,18 @@ int main()
 	{
 		std::cout << "std 리스트" << std::endl;
 		std::list<int> NewList = std::list<int>();
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			 //NewList.push_front(i);
-			 NewList.push_front(i);
+			NewList.push_back(i);
+			// NewList.push_front();
 		}
 
 		std::list<int>::iterator StartIter = NewList.begin();
 		std::list<int>::iterator EndIter = NewList.end();
+
+		// 지워진 노드의 다음 노드를 리턴합니다.
+		StartIter = NewList.erase(StartIter);
+
 		for (/*std::list<int>::iterator StartIter = NewList.begin()*/
 			; StartIter != EndIter
 			; ++StartIter)
@@ -139,14 +189,17 @@ int main()
 	{
 		std::cout << "내 리스트" << std::endl;
 		MyList NewList = MyList();
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			//NewList.push_back(i);
-			 NewList.push_front(i);
+			NewList.push_front(i);
+			// NewList.push_front();
 		}
 
 		MyList::iterator StartIter = NewList.begin();
 		MyList::iterator EndIter = NewList.end();
+
+		StartIter = NewList.erase(StartIter);
+
 		for (/*std::list<int>::iterator StartIter = NewList.begin()*/
 			; StartIter != EndIter
 			; ++StartIter
@@ -155,6 +208,7 @@ int main()
 			std::cout << *StartIter << std::endl;
 			// std::cout << StartIter.operator*() << std::endl;
 		}
+
 	}
 }
 
