@@ -282,6 +282,7 @@ public:
 	~MyMap()
 	{
 		lastOrderDelete(Root);
+		Root = nullptr;
 	}
 
 	void lastOrderDelete(MapNode* _Node)
