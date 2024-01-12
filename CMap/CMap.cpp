@@ -183,6 +183,7 @@ private:
 				RightChild->lastOrderPrint();
 			}
 			std::cout << Pair.Key << std::endl;
+			delete this;
 			return;
 		}
 
