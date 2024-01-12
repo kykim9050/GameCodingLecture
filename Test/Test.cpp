@@ -1,20 +1,55 @@
 ﻿#include <iostream>
+#include <ConsoleEngine/EngineDebug.h>
+#include <list>
 
+typedef int MyList;
+
+class MyList
+{
+
+};
 
 
 int main()
 {
-	int* num1 = new int();
-	int* num2 = new int();
-	int* num3 = new int();
+	LeakCheck;
 
-	__int64 Address1 = reinterpret_cast<__int64>(num1);
-	__int64 Address2 = reinterpret_cast<__int64>(num2);
-	__int64 Address3 = reinterpret_cast<__int64>(num3);
-	
+
+	// std list
+	std::cout << "std list" << std::endl;
+	std::list<int> NewList = std::list<int>();
+	for (int i = 0; i < 10; i++)
+	{
+		NewList.push_back(i);
+	}
+
+	std::list<int>::iterator StartIter = NewList.begin();
+	std::list<int>::iterator EndIter = NewList.end();
+
+	for ( ; StartIter != EndIter; StartIter++)
+	{
+		std::cout << *StartIter << std::endl;
+	}
+
+
+	// MyList
+	std::cout << "std list" << std::endl;
+	MyList NewList = MyList();
+	for (int i = 0; i < 10; i++)
+	{
+		NewList.push_back(i);
+	}
+
+	MyList::iterator StartIter = NewList.begin();
+	MyList::iterator EndIter = NewList.end();
+
+	for (; StartIter != EndIter; StartIter++)
+	{
+		std::cout << *StartIter << std::endl;
+	}
+
+
+
 	int a = 0;
 
-	delete num1;
-	delete num2;
-	delete num3;
 }
