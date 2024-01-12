@@ -183,7 +183,7 @@ private:
 				RightChild->lastOrderPrint();
 			}
 			std::cout << Pair.Key << std::endl;
-			delete this;
+
 			return;
 		}
 
@@ -278,6 +278,31 @@ private:
 
 
 public:
+
+	~MyMap()
+	{
+		lastOrderDelete(Root);
+	}
+
+	void lastOrderDelete(MapNode* _Node)
+	{
+		MapNode* DeleteNode = nullptr;
+
+		if (nullptr != _Node->LeftChild)
+		{
+			lastOrderDelete(_Node->LeftChild);
+		}
+		if (nullptr != _Node->RightChild)
+		{
+			lastOrderDelete(_Node->RightChild);
+		}
+		DeleteNode = _Node;
+
+		delete _Node;
+		return;
+	}
+
+
 	class iterator
 	{
 		friend MyMap;
@@ -591,10 +616,10 @@ int main()
 		//MyMap::iterator FindIter = NewMap.find(10);
 		//NewMap.erase(FindIter);
 
-		std::cout << "first" << std::endl;
+		/*std::cout << "first" << std::endl;
 		NewMap.firstOrderPrint();
 		std::cout << "mid" << std::endl;
-		NewMap.midOrderPrint();
+		NewMap.midOrderPrint();*/
 		std::cout << "last" << std::endl;
 		NewMap.lastOrderPrint();
 
