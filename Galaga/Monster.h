@@ -5,5 +5,8 @@ class Monster : public ConsoleObject
 {
 protected:
 	void Update() override;
+
+	int MoveCount = 0;
+	int2 Direction = Left;
 };
 
