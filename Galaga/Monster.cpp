@@ -11,10 +11,12 @@ void Monster::Update()
 
 		if (Direction == Right)
 		{
+			AddPos(Down);
 			Direction = Left;
 		}
 		else
 		{
+			AddPos(Down);
 			Direction = Right;
 		}
 	}
