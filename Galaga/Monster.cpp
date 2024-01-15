@@ -7,7 +7,6 @@ void Monster::Update()
 
 	if (0 >= MoveCount)
 	{
-		MoveCount = 10;
 
 		if (Direction == Right)
 		{
@@ -19,11 +18,13 @@ void Monster::Update()
 			AddPos(Down);
 			Direction = Right;
 		}
+		MoveCount = 10;
 	}
-
-	AddPos(Direction);
-	--MoveCount;
-	
+	else
+	{
+		AddPos(Direction);
+		--MoveCount;
+	}
 
 
 	ConsoleObject* CollisionObject = Collision(GalagaUpdateType::Bullet);
